@@ -10,31 +10,34 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
--stage: Build
- jobs:
--job: FirstJob
-steps:
--bash: echo build firstjob
-job: Secondjob
-steps:
--bash: echo build secondjob
--stage: devdeploy
-jobs:
--job: devdeployjob
-steps:
--bash: echo build devdeployjob
--stage: QAdeploy
-jobs:
--job: QAdeployjob
-steps:
--bash: echo build QAdeployjob
--stage: proddeploy
-jobs:
--job: proddeployjob
-steps:
--bash: echo build proddeployjob
+  - stage: Build
+    jobs:
+      - job: FirstJob
+        steps:
+          - bash: echo build firstjob
+          - script: echo Job1 Step1!
+            displayName: 'Run a one-line script'
 
-steps:
-- script: echo Job1 Step1!
-  displayName: 'Run a one-line script'
+      - job: SecondJob
+        steps:
+          - bash: echo build secondjob
+
+  - stage: devdeploy
+    jobs:
+      - job: devdeployjob
+        steps:
+          - bash: echo build devdeployjob
+
+  - stage: QAdeploy
+    jobs:
+      - job: QAdeployjob
+        steps:
+          - bash: echo build QAdeployjob
+
+  - stage: proddeploy
+    jobs:
+      - job: proddeployjob
+        steps:
+          - bash: echo build proddeployjob
+
 
