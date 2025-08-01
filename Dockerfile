@@ -1,19 +1,10 @@
-# Use official Node.js image
-FROM node:18
+FROM alpine:latest
 
-# Set working directory
 WORKDIR /app
 
-# Copy package files and install dependencies
-COPY package*.json ./
-RUN npm install
+COPY run.sh .
 
-# Copy all app files
-COPY . .
+RUN chmod +x run.sh
 
-# Expose app port
-EXPOSE 3000
-
-# Start the app
-CMD ["npm", "start"]
+CMD ["./run.sh"]
 
