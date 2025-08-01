@@ -24,7 +24,7 @@ stages:
       displayName: Build an image
       inputs:
         containerRegistry: 'docker-hub'
-        repository: 'myapp'
+        repository: 'nakulkaushik/myapp'
         command: 'build'
         Dockerfile: '**/Dockerfile'
         tags: '$(tag)'
