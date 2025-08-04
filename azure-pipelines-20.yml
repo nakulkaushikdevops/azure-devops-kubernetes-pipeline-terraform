@@ -13,13 +13,12 @@ stages:
   - job: BuildJob
     displayName: Build and Archive
     steps:
-   
     - script: |
         echo "Hello World" > output.txt
         echo "This is a test log" > log.txt
       displayName: Generate sample files
 
-        - task: CopyFiles@2
+    - task: CopyFiles@2
       displayName: Copy files to staging folder
       inputs:
         SourceFolder: '$(Build.SourcesDirectory)'
