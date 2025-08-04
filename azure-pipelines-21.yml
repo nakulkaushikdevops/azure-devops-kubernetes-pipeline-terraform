@@ -17,23 +17,20 @@ stages:
     displayName: Build and Push
     pool:
       vmImage: ubuntu-latest
-- task: Docker@2
-  inputs:
-    containerRegistry: 'docker-hub'
-    command: 'login'
     steps:
     - task: Docker@2
       displayName: Login to Docker Hub
       inputs:
         command: login
-        containerRegistry: 'nakulkaushik/myapp
+        containerRegistry: 'docker-hub' 
 
     - task: Docker@2
       displayName: Build and Push Docker Image
       inputs:
-        command: buildAndPush
+        containerRegistry: 'docker-hub'
         repository: 'nakulkaushik/myapp'
-        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        command: buildAndPush
+        Dockerfile: '**/Dockerfile'
         tags: |
           $(tag)
           latest
