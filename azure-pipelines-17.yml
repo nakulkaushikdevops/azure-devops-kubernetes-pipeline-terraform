@@ -1,0 +1,38 @@
+
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: Build
+  displayName: Build and Publish Artifacts
+  jobs:
+  - job: BuildJob
+    displayName: Build and Archive
+    steps:
+    
+    - script: |
+        echo "Hello World" > output.txt
+        echo "This is a test log" > log.txt
+      displayName: Generate sample files
+
+    - task: CopyFiles@2
+      displayName: Copy files to staging folder
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)'
+        Contents: |
+          output.txt
+          log.txt
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    - task: PublishBuildArtifacts@1
+      displayName: Publish build artifacts
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+
+
