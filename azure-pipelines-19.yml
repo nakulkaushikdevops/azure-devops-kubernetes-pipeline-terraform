@@ -1,0 +1,56 @@
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+parameters:
+  - name: targetEnv
+    type: string
+    default: 'dev'
+    values:
+      - dev
+      - qa
+      - prod
+
+variables:
+  environment: ${{ parameters.targetEnv }}
+
+stages:
+  - stage: Build
+    displayName: Build Stage
+    jobs:
+      - job: FirstJob
+        steps:
+          - bash: echo "Build step 1 for all environments"
+
+      - job: SecondJob
+        steps:
+          - bash: echo "Build step 2 for all environments"
+
+  - stage: devdeploy
+    displayName: Deploy to Dev
+    condition: and(succeeded(), eq('${{ parameters.targetEnv }}', 'dev'))
+    jobs:
+      - job: devdeployjob
+        steps:
+          - bash: echo "Deploying to DEV environment"
+
+  - stage: QAdeploy
+    displayName: Deploy to QA
+    condition: and(succeeded(), eq('${{ parameters.targetEnv }}', 'qa'))
+    jobs:
+      - job: QAdeployjob
+        steps:
+          - bash: echo "Deploying to QA environment"
+
+  - stage: proddeploy
+    displayName: Deploy to Prod
+    condition: and(succeeded(), eq('${{ parameters.targetEnv }}', 'prod'))
+    jobs:
+      - job: proddeployjob
+        steps:
+          - bash: echo "Deploying to PROD environment"
+
+
